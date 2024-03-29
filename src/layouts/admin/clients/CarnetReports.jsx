@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useActiveBoard } from "../../../hooks";
 
 // === UTILS ===
-import { DefaultCarnetsSettings, CarnetStatus, alertMessage, dateFormater, toXlsx } from "../../../utils";
+import { DefaultCarnetsSettings, CarnetStatus, alertMessage, date, dateFormater, toXlsx } from "../../../utils";
 import { clientFields } from '../../../utils/form';
 import PropTypes from "prop-types";
 
@@ -98,7 +98,8 @@ CarnetReports.propTypes = {
 
 
 export default function CarnetReports({ carnet, client, updateCarnets, onClose=() => console.log("Carnet Reports Closed")}) {
-  const SessionReports = useMemo(() => carnet.sessionReports || [], [carnet.sessionReports]);
+  const SessionReports = useMemo(() => (carnet.sessionReports || []).sort((a, b) => a.session - b.session), [carnet]);
+  const [APIDate, setAPIDate] = useState(new Date());
 
 
   // message modal state
@@ -108,13 +109,18 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
   // search params
   const { boardParams } = useActiveBoard();
 
+  // set the date to the current date
+  useEffect(() => {
+    date().then(date => date).then(date => setAPIDate(date));
+  }, []);
+
   useEffect(() => {
     if(!boardParams.subViewId) return;
-      // map: session = 1 To /reports/S1
-      const report = SessionReports.find(r => r.session === parseInt(boardParams.subViewId.toLowerCase().replace("s", "")));
+      // decompose the url into the session and report id, /reports/S{session}R{report} -> session, report
+      const report = SessionReports.find(r => r.id === parseInt(boardParams.subViewId.split("R")[1]));
       if (!report) return;
       setModal({type:"SHOW", data: report});
-      window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports/S${report.session}`);
+      window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports/S${report.session}R${report.id}`);
   }, [boardParams.subViewId, SessionReports, client, carnet]);
 
 
@@ -128,23 +134,60 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
   // === CRUD ===
   const displayReports = useCallback(report => {
     setModal({type:"SHOW", data: report});
-    window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports/S${report.session}`);
+    window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports/S${report.session}R${report.id}`);
   }, [carnet, client]);
 
 
-  const addSessionReport = useCallback( async (sessionReports) => {
+  // --- CREATE ---
+  const addSessionReport = useCallback( async (report) => {
     try {
-      const newSessionReports = [...SessionReports, sessionReports];
+      const newSessionReports = [...SessionReports, {...report, id: SessionReports.length + 1, createdAt: APIDate}];
       // add the new session report to the current carnets data
       updateCarnets(prev => prev.map(c => c.id === carnet.id ? {...c, sessionReports: newSessionReports} : c ));
       await updateSubColDocument(names.clients, client.id, configurations.carnets, carnet.id, {...carnet, sessionReports: newSessionReports});
-      setAlert({...alertMessage("C", "Session Report", true), onConfirm: alertAction, onCancel: alertAction});
+      setAlert({...alertMessage("C", "Session Report", true), onConfirm: () => alertAction(() => window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports`)), onCancel: alertAction});
     } catch (error) {
       console.error("Error on adding new session report: ", error);
       setAlert({...alertMessage("E", "Session Report", false), onConfirm: alertAction, onCancel: alertAction});
     }
 
+  }, [SessionReports, client, carnet, alertAction, updateCarnets, APIDate]);
+
+  // --- DELETE ---
+  const deleteSessionReport = useCallback( async (report) => {
+    try { 
+      const newSessionReports = SessionReports.filter(r => r.id !== report.id);
+      updateCarnets(prev => prev.map(c => c.id === carnet.id ? {...c, sessionReports: newSessionReports} : c ));
+      await updateSubColDocument(names.clients, client.id, configurations.carnets, carnet.id, {...carnet, sessionReports: newSessionReports});
+      setAlert({...alertMessage("D", "Session Report", true), onConfirm: alertAction, onCancel: alertAction});
+    } catch (error) {
+      console.error("Error on deleting session report: ", error);
+      setAlert({...alertMessage("E", "Session Report", false), onConfirm: alertAction, onCancel: alertAction});
+    }
   }, [SessionReports, client, carnet, alertAction, updateCarnets]);
+
+  // --- EXPORT ---
+  const exportToXLSX = useCallback(() => {
+    // check if there is a selected rows export the selected rows else export all rows
+    const data = SessionReports.sort((a, b) => a.id - b.id).map(report => {
+    // formating the data to be readable
+    return {
+      "ID": report.id,
+      "Carnet Session": report.session,
+      "Mental Health Report": report.reports.mental,
+      "Physical Health Report": report.reports.physical,
+      "Spiritual Health Report": report.reports.spiritual,
+      "Energetic Health Report": report.reports.energetic,
+      "Emotional Health Report": report.reports.emotional,
+
+      "Registeration Date": dateFormater(carnet.createdAt),
+      }
+    });
+
+    // exporting the data to xlsx
+    return toXlsx(data, `${client.firstname} ${client.lastname}-${carnet.order}-jnaninyoga-carnet-reports`);
+
+  }, [SessionReports, client, carnet]);
 
 
     // close the model when click outside the modal in the parent element
@@ -152,11 +195,9 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
     if(e.target === e.currentTarget){
       setModal({type:"", data: null});
       setAlert({});
-      window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports/`);
+      window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports`);
     }
   }
-
-
 
   return (
     <>
@@ -181,6 +222,7 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
             </div>
             <div className="h-full w-[5px] bg-yoga-red bg-opacity-20 z-50"></div>
             <button onClick={() => setModal({type:"CREATE", data: null})} title={`Add New Report To Carnet ${carnet.order}`} className={`h-full cinzel text-center uppercase font-semibold px-3 py-2 flex justify-center items-center outline outline-2 -outline-offset-[5px] bg-yoga-red outline-white hover:bg-yoga-red-dark active:scale-90 transition-all`}><i className="mr-2 fi fi-sr-book-medical text-yoga-black flex justify-center items-center"></i> Add New Report</button>
+            <button type="button" onClick={exportToXLSX} className={`cinzel h-full min-w-max mx-1 px-3 py-2 text-center uppercase outline outline-2 -outline-offset-[5px] bg-yoga-green text-yoga-white outline-white hover:bg-yoga-green-dark active:scale-90 transition-all`}>Export All To Excel</button>
             <div className="h-full w-[5px] bg-yoga-red bg-opacity-20 z-100"></div>
           </section>
 
@@ -196,7 +238,7 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
           ) : (
             SessionReports.map((report) => 
               <SessionReportCard
-                key={report.session} 
+                key={`S${report.session}R${report.id}`} 
                 report={report}
                 carnet={carnet}
                 client={client} 
@@ -213,13 +255,24 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
         // --- CREATE ---
         modal.type == "CREATE" ?
         <section className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-40 flex justify-center items-center print:items-start z-[200000] print:h-screen print:w-screen print:bg-white print:bg-texture print:texture-v-1 print:before:opacity-20 print:py-6 overflow-hidden">
-          <SessionReportCreate carnet={carnet} client={client} onSubmit={addSessionReport} onCancel={() => setModal(null)}/>
+          <SessionReportCreate carnet={carnet} client={client} onSubmit={addSessionReport} onCancel={() => setModal({type:"", data: null})}/>
         </section> :
 
         // --- SHOW ---
         modal.type == "SHOW" &&
         <section onClick={closeModal} className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-40 print:bg-opacity-100 flex justify-center items-center print:fixed print:left-0 print:top-0 z-[200000] print:h-screen print:w-screen print:bg-white print:before:hidden">
-          <SessionReportLookup report={modal.data} carnet={carnet} client={client} />
+          <SessionReportLookup 
+            report={modal.data} 
+            carnet={carnet} 
+            client={client}
+            onDelete={() => { 
+              setAlert({
+                ...alertMessage("D", "Session Report"),
+                message: `Deleting this report will remove all the similar reports on this session  ${modal.data.session} from the carnet ${carnet.order}.`,
+                onConfirm: () => alertAction(() => deleteSessionReport(modal.data)),
+                onCancel: alertAction
+              }) 
+            }}/>
         </section>
       )}
 

@@ -103,17 +103,19 @@ export default function Carnets({ configs, client, onClose }) {
   useEffect(() => {
     if(!boardParams.viewId) return;
     const carnet = carnets.find((carnet) => carnet.order == boardParams.viewId || carnet.id == boardParams.viewId);
-    console.log("Carnet: ", carnet)
     if (!carnet) return;
-    // CARNET LOOKUP
-    setModal({type: "R", data: carnet});
-    window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}`);
-    // SESSION REPORTS
+    
     if(boardParams.subView && boardParams.subView.toLowerCase() === "reports") {
+      // SESSION REPORTS
       setModal({type: "SESSION_REPORTS", data: carnet})
       window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports`);
+    } else {
+      // CARNET LOOKUP
+      setModal({type: "R", data: carnet});
+      window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}`);
     }
   }, [boardParams, carnets, client]);
+
 
   // check if the uri conayis preset filter and set the filter state
   useEffect(() => {
@@ -163,6 +165,12 @@ export default function Carnets({ configs, client, onClose }) {
   const displayCarnets = useCallback(carnet => {
     setModal({type: "R", data: carnet});
     window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}`);
+  }, [client.id]);
+
+  // === SESSION REPORTS VIEW ===
+  const displaySessionReports = useCallback(carnet => {
+    setModal({type: "SESSION_REPORTS", data: carnet});
+    window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${carnet.order}/reports`);
   }, [client.id]);
 
 
@@ -345,10 +353,7 @@ export default function Carnets({ configs, client, onClose }) {
           onUpdate={() => {
             setModal({type: "U", data: modal.data})
           }}
-          onReportsDisplay={() => { 
-            setModal({type: "SESSION_REPORTS", data: modal.data})
-            window.history.replaceState(null, null, `/lotus/${names.clients}/${client.id}/carnets/${modal.data.order}/reports`);
-          }}
+          onReportsDisplay={() => displaySessionReports(modal.data)}
         />
         </section>      
       )}
