@@ -17,7 +17,7 @@ SessionReportCreate.propTypes = {
 }
 
 export default function SessionReportCreate({carnet, client, onSubmit, onCancel}) {
-  const [sessionReport, setSessionReport] = useState({session: 1,  reports:{ mental: "", physical: "", spiritual: "", energitic: "", emotional: "" }});
+  const [sessionReport, setSessionReport] = useState({session: 1,  reports:{ mental: "", physical: "", spiritual: "", energetic: "", emotional: "" }});
   const CarnetSessions = useMemo(() => Array.from({length: carnet.sessions}, (_, i) => i + 1), [carnet.sessions]);
 
   const setupHealthReport = (e) => {

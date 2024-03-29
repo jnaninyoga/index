@@ -33,7 +33,7 @@ function Title({ title }) {
 
 export default function SessionReportLookup({ report, carnet, client, onDelete=() => console.log("Delete Session Report") }) {
   return (
-    <section className="relative h-[90%] w-[95%] md:w-[780px] md:h-[95%] flex flex-col gap-2 bg-yoga-white print:bg-white sm:overflow-x-hidden overflow-y-auto bg-texture texture-v-1 before:opacity-20 print:before:opacity-30 print:fixed print:left-0 print:top-0 print:h-screen print:w-screen">
+    <section className="relative h-[90%] w-[95%] md:w-[780px] md:h-[95%] flex flex-col gap-2 bg-yoga-white print:bg-white sm:overflow-x-hidden overflow-y-auto bg-texture texture-v-1 before:opacity-20 print:before:opacity-30 print:overflow-auto print:h-full print:w-screen">
       <section className="relative w-full min-w-max px-4 py-6 print:px-0 print:pr-5 print:py-4 flex items-center flex-col gap-8 print:gap-6">
         <header className="w-full pl-5 flex justify-start items-center gap-4">
           <div className="w-32 h-32 flex justify-center items-center aspect-square bg-cover bg-center">
@@ -49,13 +49,13 @@ export default function SessionReportLookup({ report, carnet, client, onDelete=(
       { Object.keys(report.reports).length > 0 && Object.keys(report.reports).map((reportType, i) => (
         <>
         <Title key={i} title={`${reportType} Health Report:`} />
-        <article key={i} className="w-full min-w-max px-10 mb-4">
+        <article key={i} className="w-full py-4 px-10 mb-4">
           { report.reports[reportType] }
         </article>
         </>
       ))}
 
-      <footer className="absolute bottom-0 p-4 z-20 w-full min-w-max flex justify-center sm:justify-end items-center gap-5 print:hidden">
+      <footer className="p-4 z-20 w-full min-w-max flex justify-center sm:justify-end items-center gap-5 print:hidden">
         <button onClick={onDelete} title={`Delete Session Report #${report.session}`} className={`cinzel text-center text-white uppercase h-full px-3 py-2 flex justify-center items-center outline outline-2 -outline-offset-[5px] bg-red-400 outline-white hover:bg-red-500 active:scale-90 transition-all`}><i className="fi fi-bs-trash mr-1 text-yoga-white flex justify-center items-center"></i> Delete</button>
         <button onClick={window.print} className="yoga-btn drop-shadow-lg group"><i className="fi fi-sr-file-pdf flex items-center justify-center mr-1 group-hover:text-yoga-green-dark transition-all"></i>{" "}Download</button>
       </footer>

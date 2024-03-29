@@ -153,7 +153,11 @@ export default function CarnetLookup({ carnet, client, onUpdate=() => console.lo
         {/* Table of the sessions; each row must contain 10 Check sesions & and each Check session is eather checked or not */}
         <ul className="w-full grid grid-cols-10 gap-2">
           {Array.from({ length: carnet.sessions }, (_, i) => (
-            <Session key={i} passed={i < carnet.passedSessions} />
+            <Session 
+              key={i} 
+              passed={i < carnet.passedSessions}
+              isReported={carnet.sessionReports.some((report) => report.session-1 === i)}
+            />
           ))}
         </ul>
 
