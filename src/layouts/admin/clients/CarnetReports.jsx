@@ -260,7 +260,7 @@ export default function CarnetReports({ carnet, client, updateCarnets, onClose=(
 
         // --- SHOW ---
         modal.type == "SHOW" &&
-        <section onClick={closeModal} className="print-wrapper-multi-pages absolute h-full w-full top-0 left-0 bg-black bg-opacity-40 print:bg-opacity-100 flex justify-center items-center print:fixed print:left-0 print:top-0 z-[200000] print:w-screen print:bg-white print:before:hidden print:overflow-auto">
+        <section onClick={closeModal} className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-40 print:bg-opacity-100 flex justify-center items-center z-[200000] print:fixed print:left-0 print:top-0 print:w-screen print:bg-white print:before:hidden print:overflow-auto">
           <SessionReportLookup 
             report={modal.data} 
             carnet={carnet} 

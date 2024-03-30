@@ -439,11 +439,3 @@ body{
 .shadow-yoga-green-mb {
   box-shadow: 0px 40px 0px 0px var(--yoga-green);
 }
-
-
-@media print {
-  .print-wrapper-multi-pages{
-    page-break-inside: avoid; /* Ensure content doesn't break across pages */
-    page-break-after: always; /* Force page break after each content wrapper */
-  }
-}

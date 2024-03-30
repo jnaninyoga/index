@@ -33,7 +33,7 @@ function Title({ title }) {
 
 export default function SessionReportLookup({ report, carnet, client, onDelete=() => console.log("Delete Session Report") }) {
   return (
-    <section className="relative h-[90%] w-[95%] md:w-[780px] md:h-[95%] flex flex-col gap-2 bg-yoga-white print:bg-white sm:overflow-x-hidden overflow-y-auto bg-texture texture-v-1 before:opacity-20 print:before:opacity-30 print:overflow-auto print:h-full print:w-screen">
+    <section className="relative h-[90%] w-[95%] md:w-[780px] md:h-[95%] flex flex-col gap-2 bg-yoga-white print:bg-white sm:overflow-x-hidden overflow-y-auto bg-texture texture-v-1 before:opacity-20 print:before:opacity-30 print:overflow-hidden print:h-full print:w-screen">
       <section className="relative w-full min-w-max px-4 py-6 print:px-0 print:pr-5 print:py-4 flex items-center flex-col gap-8 print:gap-6">
         <header className="w-full pl-5 flex justify-start items-center gap-4">
           <div className="w-32 h-32 flex justify-center items-center aspect-square bg-cover bg-center">
@@ -47,12 +47,10 @@ export default function SessionReportLookup({ report, carnet, client, onDelete=(
       </section>
       
       { Object.keys(report.reports).length > 0 && Object.keys(report.reports).map((reportType, i) => (
-        <>
-        <Title key={i} title={`${reportType} Health Report:`} />
-        <article key={i} className="w-full py-4 px-10 mb-4">
-          { report.reports[reportType] }
+        <article key={i} className={`w-full mb-4 flex items-center flex-col gap-3 ${(i === Object.keys(report.reports).length - 2)  &&  "print:break-after-pag"}`}>
+          <Title title={`${reportType} Health Report:`} />
+          <p className="px-8"> { report.reports[reportType] } </p>
         </article>
-        </>
       ))}
 
       <footer className="p-4 z-20 w-full min-w-max flex justify-center sm:justify-end items-center gap-5 print:hidden">
