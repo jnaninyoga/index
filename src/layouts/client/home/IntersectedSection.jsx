@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useRef } from 'react';
 import { useCurrentLanguage, useIntersectView } from '../../../hooks';
 // import icon from '../assets/imgs/icons/lotus.webp';
@@ -21,8 +22,15 @@ export default function IntersectedSection({title, text, video, alt="", poster="
     const isVsecIntersected = useIntersectView(vsec);
     const isPsecIntersected = useIntersectView(psec);
 
-  return (
-    <section dir='ltr' className={`w-full h-[500px] flex flex-1 items-center justify-center flex-col ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`} id={encodeURI(title.toUpperCase())}>
+return (
+    <section itemscope itemtype="https://schema.org/NewsArticle" dir='ltr' className={`w-full h-[500px] flex flex-1 items-center justify-center flex-col ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`} id={encodeURI(title.toUpperCase())}>
+        {/* META - adding meta imgaes for SEO - SERP page articles */}
+        <meta itemprop="image" content={poster} />
+        <meta itemprop="datePublished" content={new Date().toISOString()} />
+        <meta itemprop="dateModified" content={new Date().toISOString()} />
+        <meta itemprop="author" content="Yoga with Ouarda El Fahli" />
+        
+
         <video ref={vsec} onContextMenu={e => e.preventDefault()} src={video} poster={poster} muted loop autoPlay preload='auto' className={`${isVsecIntersected  ? "translate-x-[0%] opacity-100 shadow-yoga-green": `${reverse ? "translate-x-[100%]":"translate-x-[-100%]"} opacity-0 shadow-none`} lg:w-1/2 w-full lg:h-full h-[300px] max-h-[500px] max-w-screen-lg ${reverse ? "lg:mr-14":"lg:ml-14"} object-cover object-center aspect-square transition-all duration-1000 select-none pointer-events-none`} alt={alt} ></video>
         <article dir={currentLanguage.dir} ref={psec} className={`${isPsecIntersected ? `${reverse ? "lg:translate-x-14":"lg:-translate-x-14"} opacity-100 translate-x-0` : `${reverse ? "translate-x-[-100%]":"translate-x-[100%]"} opacity-0`} h-full lg:px-10 px-8 lg:py-12 py-8 lg:w-1/2 w-[92%] bg-yoga-white flex items-center ${currentLanguage.dir === "rtl" ? "lg:justify-end" : "lg:justify-start"} justify-center flex-col lg:gap-4 gap-4 lg:translate-y-0 -translate-y-24 transition-all duration-1000 overflow-hidden`}>
             <div className={`w-full flex items-center lg:justify-start justify-center lg:flex-row flex-col lg:gap-0 gap-1`}>
@@ -35,7 +43,7 @@ export default function IntersectedSection({title, text, video, alt="", poster="
                     width={100}
                     />
                 </div>
-                <h2 role='heading' className={`${isPsecIntersected ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"} text-2xl cinzel lg:text-start text-center font-bold uppercase delay-500 duration-500 transition-all`}>{title}</h2>
+                <h2 role='heading' itemprop="headline" className={`${isPsecIntersected ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"} text-2xl cinzel lg:text-start text-center font-bold uppercase delay-500 duration-500 transition-all`}>{title}</h2>
             </div>
             <p role='definition' dir={currentLanguage.dir} className={`${isPsecIntersected ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"} lg:text-start lg:text-lg sm:text-center text-justify delay-500 duration-500 transition-all`}>{text}</p>
         </article>

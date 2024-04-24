@@ -1,6 +1,6 @@
+sitemap: https://jnaninyoga.com/sitemap.xml
+
 User-agent: *
 Disallow: /langs/
-Disallow: /assets/
 Disallow: /lotus/
 
-sitemap: https://jnaninyoga.com/sitemap.xml

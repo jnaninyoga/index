@@ -1,84 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <!-- Homepage -->
     <url>
         <loc>https://jnaninyoga.com/</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- About Page -->
     <url>
         <loc>https://jnaninyoga.com/about</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Contact Page -->
     <url>
         <loc>https://jnaninyoga.com/contact</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Classes Page -->
     <url>
         <loc>https://jnaninyoga.com/classes</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Book Now Page -->
     <url>
         <loc>https://jnaninyoga.com/booknow</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Language variations for client side -->
     <url>
         <loc>https://jnaninyoga.com/en/</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/fr/</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/ar/</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- About Page - Language variations -->
     <url>
         <loc>https://jnaninyoga.com/en/about</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/fr/about</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/ar/about</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Contact Page - Language variations -->
     <url>
         <loc>https://jnaninyoga.com/en/contact</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/fr/contact</loc>
-    </url>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     <url>
+    </url>
         <loc>https://jnaninyoga.com/ar/contact</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Classes Page - Language variations -->
     <url>
         <loc>https://jnaninyoga.com/en/classes</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/fr/classes</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/ar/classes</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
     <!-- Book Now Page - Language variations -->
     <url>
         <loc>https://jnaninyoga.com/en/booknow</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/fr/booknow</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
     <url>
         <loc>https://jnaninyoga.com/ar/booknow</loc>
+        <lastmod>2024-03-30T11:47:13+00:00</lastmod>
     </url>
 
 </urlset>
