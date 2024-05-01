@@ -97,7 +97,7 @@ export default function BookNow() {
 
   return (
     <>
-    <Meta title={t('booknow.metaTitle')} {...metadata.booknow}/>
+    <Meta {...metadata.booknow}/>
     <Header/>
     <OverLaped banner={banner} type="video">
       <img src={LotusOverlay} className={`opacity-100 -z-10 absolute scale-75 sm:bottom-6 bottom-0 sm:right-4 right-1 object-cover object-center mix-blend-screen transition-all duration-700 delay-300`} alt="Lotus Overlay" />

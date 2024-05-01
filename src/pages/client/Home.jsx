@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import AboutMe from "../../components/home/AboutMe";
 import ContactCard from "../../components/home/ContactCard";
 import Hero from "../../components/home/Hero";
@@ -14,7 +13,6 @@ import Reviews from "../../layouts/client/home/Reviews";
 import Wrapper from "../../layouts/client/shared/Wrapper";
 
 export default function Home() {
-  const { t } = useTranslation();
   const activePage = useActivePage();
   usePathLanguage();
 
@@ -23,7 +21,7 @@ export default function Home() {
   
   return (
     <>
-      <Meta title={t('home.metaTitle')} {...metadata.home}/>
+      <Meta {...metadata.home}/>
       <Header/>
       <Wrapper>
         <Hero/>

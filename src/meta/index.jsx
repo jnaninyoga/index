@@ -1,5 +1,6 @@
 // using Helmet to setupe mata data for each page
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from "react-i18next";
 import PropType from 'prop-types';
 
 Meta.propTypes = {
@@ -14,11 +15,13 @@ Meta.propTypes = {
 }
 
 export default function Meta(meta) {
+    const { t } = useTranslation();
     const { title, description, keywords, image, url, type } = meta;
 
     return (
         <Helmet prioritizeSeoTags>
-            <title>{title}</title>
+            {/*  TRANSLATE the title based on the current lang */}
+            <title>{t(title)}</title>
             <meta name="author" content="Jnanin Yoga Studio"/>
             {/* Canonical */}
             <link rel="canonical" href={url}/>

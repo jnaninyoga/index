@@ -26,7 +26,7 @@ export default function About() {
   
   return (
   <>
-  <Meta title={t('about.metaTitle')} {...metadata.about}/>
+  <Meta {...metadata.about}/>
   <Header/>
 
 
