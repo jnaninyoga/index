@@ -48,7 +48,7 @@
                     "review": "Votre avis doit être au moins 10 caractères"
                 },
                 "onSuccess": "Merci {{mr}} pour votre super avis!",
-                "resetBtn": "Annuler"
+                "backBtn": "Retour"
             }
         }
     },
@@ -175,5 +175,8 @@
     "GlobalForm":{
         "emptyField": "Veuillez remplir le champ '{{field}}'",
         "emptyFields": "Veuillez remplir tous les champs"
-    }
+    },
+
+    "GoogleReviewMotivation": "Flux de positivité ! Illuminez notre parcours en partageant votre expérience sereine sur notre profil d'entreprise Google. Votre avis aide à diffuser la lumière de la tranquillité aux autres. Merci!", 
+    "GoogleReviewMotivationLink": "Ajoutez Votre Avis"
 }

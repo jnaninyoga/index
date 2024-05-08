@@ -48,7 +48,8 @@
                     "review": "review must be at least 10 characters long"
                 },
                 "onSuccess": "Thank you {{mr}} for your awesome review!",
-                "resetBtn": "Cancel"
+                "resetBtn": "Cancel",
+                "backBtn": "Back"
             }
         }
     },
@@ -175,5 +176,8 @@
     "GlobalForm":{
         "emptyField": "{{field}} field Can't be empty",
         "emptyFields": "Please fill out all the required fields"
-    }
+    },
+
+    "GoogleReviewMotivation": "Flow with positivity! Illuminate our journey by sharing your serene experience on our Google Business Profile. Your review helps spread the light of tranquility to others. Thank you!",
+    "GoogleReviewMotivationLink": "Add Your Review"
 }

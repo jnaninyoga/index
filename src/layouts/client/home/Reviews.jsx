@@ -93,12 +93,24 @@ export default function Reviews() {
   
   return (
     <section id="reviews" className="w-screen min-h-[400px] relative mt-14 py-8 flex flex-1 justify-center items-center flex-col gap-6 sm:mt-20 overflow-hidden" style={{backgroundImage: `url(${GreenMat})`}}>
-    {isFormActive ? 
+    {isFormActive ?
     <section className='w-full flex flex-1 justify-center items-center px-4 flex-col'>
-    {thankPage ?        
+    {thankPage ?
         <article className="w-full flex flex-1 justify-center items-center flex-col gap-4">
             <h1 className="cinzel sm:text-4xl text-3x text-center text-yoga-white font-bold uppercase">{t(`${activePage}.reviews.form.onSuccess`, {mr: reviewData.fullname})}</h1>
-            <button onClick={() => setIsFormActive(false)} className="cinzel font-bold yoga-btn">{t("thankpage.btn")}</button>
+            <button onClick={() => setIsFormActive(false)} className="cinzel font-bold yoga-btn">{t(`${activePage}.reviews.form.backBtn`)}</button>
+
+            <p className="text-yoga-white">
+              <i className="mr-2 px-1 py-[1.2px] fi fi-brands-google text-yoga-white text-center bg-yoga-red-dark"></i>
+              {t("GoogleReviewMotivation")}
+              <a
+                className={`ml-2 relative font-bold transition-all text-yoga-red before:transition-all before:absolute before:h-1 before:bg-yoga-red before:left-1/2 before:-translate-x-1/2 before:-bottom-1 hover:before:w-full hover:text-yoga-red-dark uppercase`}
+                href="https://g.page/r/CTG_dcrDmIkeEB0/review"
+                referrerPolicy="no-referrer" 
+                rel="noreferrer"
+                target="_blank"
+              >{t("GoogleReviewMotivationLink")}</a>
+            </p>
         </article>
     :
         <Form
